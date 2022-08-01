@@ -7,6 +7,8 @@
 #include <limits.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <
+#include <sys/wait.h>
+
+char **create_parameter_array(char *buf, char **params);
 
 #endif /* MAIN_H */
