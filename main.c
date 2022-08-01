@@ -5,7 +5,7 @@
 */
 int main()
 {
-	char *buf = NULL, *delim = " \t\n", *cmd = NULL, *token = NULL, **params = NULL;
+	char *buf = NULL, *delim = " \t\n", *cmd = NULL, *token = NULL, **params = NULL, *newline = "\n";
 	size_t bufSize = 0;
 	int f, i, cmdLen, inputLen, status, spaces;
 
@@ -15,7 +15,7 @@ int main()
 		inputLen = getline(&buf, &bufSize, stdin);
 		if (inputLen == -1)
 			return (1);
-		params = create_parameter_array(buf, params);
+		buf = strtok(buf, newline);
 		for (cmdLen = 0; buf[cmdLen] != ' ' && buf[cmdLen]; cmdLen++);
 		cmdLen += 6;
 		cmd = malloc(cmdLen);
@@ -24,6 +24,10 @@ int main()
 		for (i = 0, spaces = 0; buf[i]; i++)
 			if (buf[i] == ' ')
 				spaces++;
+		params = create_parameter_array(buf, params, spaces);
+		if (!params)
+			return (1);
+		i = 0;
 		token = strtok(buf, delim);
 		strcat(cmd, "/bin/");
 		strcat(cmd, token);
@@ -37,13 +41,21 @@ int main()
 	return (0);
 }
 
-char **create_parameter_array(char *buf, char **params)
+char **create_parameter_array(char *buf, char **params, int spaces)
 {
-	char *buf2;
+	char *token;
 	int i;
-
-	buf2 = strtok(buf, " ");
-	i = strlen(buf2);
-	param
-
+	
+	params = malloc((sizeof(char *) * spaces) + 1);
+	if (!params)
+		return (params);
+	token = strtok(buf, " ");
+	for (i = 0; i <= spaces; i++)
+	{
+		params[i] = token;
+		token = strtok(NULL, " ");
+	}
+	params[i] = NULL;
+	i = 0;
+	return (params);
 }
