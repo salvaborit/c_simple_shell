@@ -17,10 +17,7 @@ int main()
 		inputLen = getline(&buf, &bufSize, stdin);
 		} while (buf[0] == '\n');
 		if (inputLen == -1)
-		{
-			putchar('\n');
 			exit(EXIT_SUCCESS);
-		}
 
 		/* remove newline from buf */
 		buf = strtok(buf, newline);
@@ -65,9 +62,6 @@ void fork_and_exec(char *cmd, char **params)
 		wait(&status);
 }
 
-/*
-* Return: 1 if success, 0 if failure
-*/
 int check_access(char *path, char *token)
 {
 	if (access(path, F_OK) == 0)
