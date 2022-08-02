@@ -1,6 +1,6 @@
 #include "main.h"
 /*
-* main - main shell function
+* main - simple shell
 * Return: 0 if success, 1 if failure
 */
 int main()
@@ -28,9 +28,10 @@ int main()
 			return (1);
 
 		/* counts number of params */
-		for (i = 0, paramCount = 0; buf[i], ; i++)
+		for (i = 0, paramCount = 0; buf[i] ; i++)
 			if (buf[i] == ' ' && (!buf[i + 1] || buf[i + 1] == ' '))
 				paramCount++;
+
 		params = tokenizer(buf, params, paramCount);
 		if (!params)
 			return (1);
@@ -56,7 +57,7 @@ char **tokenizer(char *buf, char **params, int paramCount)
 	if (!params)
 		return (params);
 	token = strtok(buf, " ");
-	for (i = 0; i <= spaces; i++)
+	for (i = 0; i <= paramCount; i++)
 	{
 		params[i] = token;
 		token = strtok(NULL, " ");
