@@ -81,14 +81,11 @@ char **tokenizer(char *buf, char **params, int paramCount)
 	if (!params)
 		return (params);
 	token = strtok(buf, " ");
-	printf("paramCount = %d\n", paramCount);
 	for (i = 0; i <= paramCount; i++)
 	{
 		params[i] = token;
 		token = strtok(NULL, " ");
 	}
 	params[i] = NULL;
-	for (i = 0; params[i]; i++)
-		printf("param[%d] = %s\n", i, params[i]);
 	return (params);
 }
