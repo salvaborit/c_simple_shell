@@ -17,7 +17,10 @@ int main()
 		inputLen = getline(&buf, &bufSize, stdin);
 		} while (buf[0] == '\n');
 		if (inputLen == -1)
-			return (1);
+		{
+			putchar('\n');
+			exit(EXIT_SUCCESS);
+		}
 
 		/* remove newline from buf */
 		buf = strtok(buf, newline);
