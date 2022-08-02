@@ -46,6 +46,9 @@ int main()
 			fork_and_exec(cmd, params);
 	}
 	/* free mallocs in create_parameter_array */
+	free(buf);
+	free(cmd);
+	free(params);
 	return (0);
 }
 
