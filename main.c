@@ -13,9 +13,10 @@ int main()
 	{
 		if(isatty(0) == 1)
 			printf("#cisfun$ ");
+
 		do {
 		inputLen = getline(&buf, &bufSize, stdin);
-		} while (buf[0] == '\n');
+		} while (buf[0] == '\n' && inputLen > 1);
 		if (inputLen == -1)
 			exit(EXIT_SUCCESS);
 
@@ -31,7 +32,7 @@ int main()
 
 		/* put number of parameters in paramCount */
 		for (i = 0, paramCount = 0; buf[i] ; i++)
-			if (buf[i] == ' ' && (!buf[i + 1] || buf[i + 1] == ' '))
+			if (buf[i] != ' ' && (buf[i + 1] == '\n' || buf[i + 1] == ' '))
 				paramCount++;
 
 		params = tokenizer(buf, params, paramCount);
@@ -45,10 +46,8 @@ int main()
 		if (validPath)
 			fork_and_exec(cmd, params);
 	}
-	/* free mallocs in create_parameter_array */
 	free(buf);
 	free(cmd);
-	free(params);
 	return (0);
 }
 
@@ -78,15 +77,18 @@ char **tokenizer(char *buf, char **params, int paramCount)
 	char *token;
 	int i;
 
-	params = malloc((sizeof(char *) * paramCount) + 1);
+	params = malloc((8 * paramCount) + 1);
 	if (!params)
 		return (params);
 	token = strtok(buf, " ");
+	printf("paramCount = %d\n", paramCount);
 	for (i = 0; i <= paramCount; i++)
 	{
 		params[i] = token;
 		token = strtok(NULL, " ");
 	}
 	params[i] = NULL;
+	for (i = 0; params[i]; i++)
+		printf("param[%d] = %s\n", i, params[i]);
 	return (params);
 }
