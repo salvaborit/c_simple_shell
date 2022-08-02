@@ -28,7 +28,7 @@ int main()
 		cmdLen += 6;
 		cmd = malloc(cmdLen);
 		if (!cmd)
-			return (1);
+			exit(EXIT_SUCCESS);
 
 		/* put number of parameters in paramCount */
 		for (i = 0, paramCount = 0; buf[i] ; i++)
@@ -37,7 +37,7 @@ int main()
 
 		params = tokenizer(buf, params, paramCount);
 		if (!params)
-			return (1);
+			exit(EXIT_SUCCESS);
 		token = strtok(buf, delim);
 		if (access(token, F_OK) != 0)
 			strcat(cmd, "/bin/");
