@@ -11,16 +11,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-typedef struct list_s
-{
-	char *str;
-	struct list_s *next;
-} list_t;
-
 char **tokenizer(char *buf, char **params, int paramCount);
 int check_access(char *path, char *token);
 void fork_and_exec(char *cmd, char **params);
-
-
 
 #endif /* MAIN_H */
