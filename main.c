@@ -5,14 +5,14 @@
 */
 int main()
 {
-	extern char ** environ;
 	char *buf = NULL, *delim = " \t\n", *cmd = NULL, *token = NULL, **params = NULL, *newline = "\n";
 	size_t bufSize = 0;
-	int f, i, cmdLen, inputLen, status, paramCount;
+	int i, cmdLen, inputLen, paramCount, validPath;
 
 	while (1)
 	{
-		printf("#cisfun$ ");
+		if(isatty(0) == 1)
+			printf("#cisfun$ ");
 		inputLen = getline(&buf, &bufSize, stdin);
 		if (inputLen == -1)
 			return (1);
@@ -20,14 +20,14 @@ int main()
 		/* remove newline from buf */
 		buf = strtok(buf, newline);
 
-		/* length of command for malloc */
+		/* length of command in cmdLen for cmd malloc*/
 		for (cmdLen = 0; buf[cmdLen] != ' ' && buf[cmdLen]; cmdLen++);
 		cmdLen += 6;
 		cmd = malloc(cmdLen);
 		if (!cmd)
 			return (1);
 
-		/* counts number of params */
+		/* put number of parameters in paramCount */
 		for (i = 0, paramCount = 0; buf[i] ; i++)
 			if (buf[i] == ' ' && (!buf[i + 1] || buf[i + 1] == ' '))
 				paramCount++;
@@ -38,13 +38,35 @@ int main()
 		token = strtok(buf, delim);
 		strcat(cmd, "/bin/");
 		strcat(cmd, token);
-		f = fork();
-		if (f != 0)
-			wait(&status);
-		else
-			execve(cmd, params, environ);
+		validPath = check_access(cmd, token);
+		if (validPath)
+			fork_and_exec(cmd, params);
 	}
 	/* free mallocs in create_parameter_array */
+	return (0);
+}
+
+void fork_and_exec(char *cmd, char **params)
+{
+	extern char **environ;
+	pid_t id;
+	int status;
+
+	id = fork();
+	if (id == 0)
+		execve(cmd, params, environ);
+	else
+		wait(&status);
+}
+
+/*
+* Return: 1 if success, 0 if failure
+*/
+int check_access(char *path, char *token)
+{
+	if (access(path, F_OK) == 0)
+		return (1);
+	printf("Error: command \"%s\" not found\n", token);
 	return (0);
 }
 
@@ -52,7 +74,7 @@ char **tokenizer(char *buf, char **params, int paramCount)
 {
 	char *token;
 	int i;
-	
+
 	params = malloc((sizeof(char *) * paramCount) + 1);
 	if (!params)
 		return (params);
