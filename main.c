@@ -5,6 +5,7 @@
 */
 int main()
 {
+	extern char ** environ;
 	char *buf = NULL, *delim = " \t\n", *cmd = NULL, *token = NULL, **params = NULL, *newline = "\n";
 	size_t bufSize = 0;
 	int f, i, cmdLen, inputLen, status, paramCount;
@@ -30,10 +31,9 @@ int main()
 		for (i = 0, paramCount = 0; buf[i], ; i++)
 			if (buf[i] == ' ' && (!buf[i + 1] || buf[i + 1] == ' '))
 				paramCount++;
-		params = create_parameter_array(buf, params, paramCount);
+		params = tokenizer(buf, params, paramCount);
 		if (!params)
 			return (1);
-		i = 0;
 		token = strtok(buf, delim);
 		strcat(cmd, "/bin/");
 		strcat(cmd, token);
@@ -41,13 +41,13 @@ int main()
 		if (f != 0)
 			wait(&status);
 		else
-			execve(cmd, params, NULL);
+			execve(cmd, params, environ);
 	}
 	/* free mallocs in create_parameter_array */
 	return (0);
 }
 
-char **create_parameter_array(char *buf, char **params, int paramCount)
+char **tokenizer(char *buf, char **params, int paramCount)
 {
 	char *token;
 	int i;
@@ -62,6 +62,5 @@ char **create_parameter_array(char *buf, char **params, int paramCount)
 		token = strtok(NULL, " ");
 	}
 	params[i] = NULL;
-	i = 0;
 	return (params);
 }

@@ -9,6 +9,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-char **create_parameter_array(char *buf, char **params, int spaces);
+char **tokenizer(char *buf, char **params, int spaces);
 
 #endif /* MAIN_H */
