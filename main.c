@@ -13,7 +13,9 @@ int main()
 	{
 		if(isatty(0) == 1)
 			printf("#cisfun$ ");
+		do {
 		inputLen = getline(&buf, &bufSize, stdin);
+		} while (buf[0] == '\n');
 		if (inputLen == -1)
 			return (1);
 
@@ -36,7 +38,8 @@ int main()
 		if (!params)
 			return (1);
 		token = strtok(buf, delim);
-		strcat(cmd, "/bin/");
+		if (access(token, F_OK) != 0)
+			strcat(cmd, "/bin/");
 		strcat(cmd, token);
 		validPath = check_access(cmd, token);
 		if (validPath)
