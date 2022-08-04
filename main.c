@@ -1,8 +1,5 @@
 #include "main.h"
-/*
-* main - simple shell
-* Return: 0 if success, 1 if failure
-*/
+
 int main()
 {
 	char *buf = NULL, *pathDirs = NULL, *validPath;
@@ -20,10 +17,7 @@ int main()
 		} while (buf[0] == '\n' && inputLen == 2);
 
 		if (strcmp(buf, "\n") == 0)
-		{
-			free(buf);
 			continue;
-		}
 
 		buf = strtok(buf, newline);
 		if (strcmp(buf, "exit") == 0 || inputLen == -1)
@@ -41,48 +35,47 @@ int main()
 		}
 
 		params = tokenizer(buf, params, paramCount);
-		if (!params)
-			return (0);
 		pathDirs = getenv("PATH");
 		if (!pathDirs)
 		{
-			free(buf);
 			free(pathDirs);
 			for(i = 0; params[i]; i++)
 				free(params[i]);
 			free(params);
+			free(buf);
 		}
 		validPath = check_access(pathDirs, params[0]);
 		if (validPath)
 			fork_and_exec(validPath, params);
 		else
+		{
+			free(validPath);
+			free(pathDirs);
+			for(i = 0; params[i]; i++)
+				free(params[i]);
+			free(params);
+			free(buf);
 			exit(EXIT_SUCCESS);
+		}
 	}
 	return (0);
 }
 
-/*
-* check_access: checks if file in path exists
-* Return: 1 if found, 0 if not found
-*/
 char *check_access(char *pathDirs, char *command)
 {
-	char *path, *fullPath;
+	char *path, *fullPath = NULL;
 	int validPath;
 	
 	path = strtok(pathDirs, ":");
 	while (path)
 	{
 		fullPath = malloc(strlen(path) + strlen(command) + 2);
-		strcat(fullPath, path);
+		strncpy(fullPath, path, strlen(path));
 		strcat(fullPath, "/");
 		strcat(fullPath, command);
 		validPath = access(fullPath, F_OK);
 		if (validPath == 0)
-		{
-			free(path);
 			return(fullPath);
-		}
 		free(fullPath);
 		path = strtok(NULL, ":");
 	}
@@ -125,12 +118,12 @@ char *_getenv(char *name)
 	return (value);
 }
 
-char **tokenizer(char *buf, char **params, int paramCount)
+char **tokenizer(char *buf, char *params[], int paramCount)
 {
 	char *token;
 	int i;
 
-	params = malloc(sizeof(char *) * paramCount);
+	params = malloc(1024);
 	if (!params)
 		return (params);
 	token = strtok(buf, " ");
