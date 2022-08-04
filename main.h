@@ -11,10 +11,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-int tokenizer(char *buf, char **params, int paramCount);
-char *check_access(char *path, char *token);
-pid_t fork_and_exec(char *cmd, char **params);
+char **tokenizer(char *buf, char **params, int paramCount);
+char *check_access(char *paths[], char *command);
+pid_t fork_and_exec(char *command, char **params);
 char *_getenv(char *name);
-int path_dirs_to_array(char **paths, char *pathDirs);
+char **path_dirs_to_array(char *pathDirs);
 
 #endif /* MAIN_H */

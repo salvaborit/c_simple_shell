@@ -2,10 +2,10 @@
 
 int main()
 {
-	char *buf = NULL, *pathDirs = NULL, *validPath;
+	char *buf = NULL, *pathDirs = NULL, *validPath = NULL;
 	char **params = NULL, *newline = "\n", **paths = NULL;
 	size_t bufSize = 0;
-	int i, cmdLen, inputLen, paramCount = 0, k;
+	int i, cmdLen, inputLen, paramCount = 0;
 
 	while (1)
 	{
@@ -29,7 +29,8 @@ int main()
 			if (buf[i] != 32/*space*/ && (buf[i + 1] == 10/*newline*/ || buf[i + 1] == 32 || buf[i + 1] ==  0))
 				paramCount++;
 
-		if (tokenizer(buf, params, paramCount) == 0)
+		params = tokenizer(buf, params, paramCount);
+		if (!params)
 			exit(0);
 
 		pathDirs = getenv("PATH");
@@ -41,14 +42,21 @@ int main()
 			exit(0);
 		}
 
-printf("pathDirs: %s\n", pathDirs);
-
-		k = path_dirs_to_array(paths, pathDirs);
-
-printf("k = %d\n", k);
+		paths = malloc(1024);
+		if (!paths)
+		{
+			for (i = 0; params[i]; i++)
+				free(params[i]);
+			free (params);
+			exit(0);
+		}
+		paths = path_dirs_to_array(pathDirs);
 		
-		validPath = check_access(pathDirs, params[0]);
-printf("validPath = %s\n", validPath);
+		validPath = malloc(1024);
+		if (!validPath)
+			exit(0);
+		validPath = check_access(paths, params[0]);
+
 		if (validPath)
 			fork_and_exec(validPath, params);
 		else
@@ -63,40 +71,63 @@ printf("validPath = %s\n", validPath);
 	return (0);
 }
 
-int path_dirs_to_array(char **paths, char *pathDirs)
+char *check_access(char *paths[], char *command)
 {
-	char *token;
+	char *fullPath = NULL;
+	int i;
+
+	if (!paths || !command)
+		return (NULL);
+
+	for (i = 0; paths[i]; i++)
+	{
+		fullPath = malloc(strlen(paths[i]) + strlen(command) + 2);
+		if (!fullPath)
+			return (NULL);
+		strcat(fullPath, paths[i]);
+		strcat(fullPath, "/");
+		strcat(fullPath, command);
+		if (access(fullPath, F_OK) == 0)
+			return(fullPath);
+		free(fullPath);
+	}
+	printf("Error: hellocommand \"%s\" not found\n", command);
+	return (NULL);
+}
+
+
+char **path_dirs_to_array(char *pathDirs)
+{
+	char *token, **paths;
 	int i, pathCount = 1;
 
 	for (i = 0; pathDirs[i]; i++)
 		if (pathDirs[i] == ':')
 			pathCount++;
 
-
 	paths = malloc(1024);
 	if (!paths)
-		return (0);
+		return (NULL);
 
 	token = strtok(pathDirs, ":");
 
 	for (i = 0; i < pathCount; i++)
 	{
 		paths[i] = token;
-printf("path[%d] = %s\n", i, paths[i]);
 		token = strtok(NULL, ":");
 	}
 	paths[i] = NULL;
-	return (1);
+	return (paths);
 }
 
-int tokenizer(char *buf, char **params, int paramCount)
+char **tokenizer(char *buf, char **params, int paramCount)
 {
 	char *token;
 	int i;
 
 	params = malloc(1024);
 	if (!params)
-		return (0);
+		return (NULL);
 	token = strtok(buf, " ");
 	for (i = 0; i < paramCount; i++)
 	{
@@ -104,40 +135,7 @@ int tokenizer(char *buf, char **params, int paramCount)
 		token = strtok(NULL, " ");
 	}
 	params[i] = NULL;
-	return (1);
-}
-
-char *check_access(char *pathDirs, char *command)
-{
-	char *path, *fullPath = NULL;
-	int validPath;
-
-	if (!pathDirs || !command)
-		return (NULL);
-	
-	path = strtok(pathDirs, ":");
-	while (path)
-	{
-		fullPath = malloc(strlen(path) + strlen(command) + 2);
-		if (!fullPath)
-			return (NULL);
-		strcat(fullPath, path);
-		if (!fullPath)
-			return (NULL);
-		strcat(fullPath, "/");
-		if (!fullPath)
-			return (NULL);
-		strcat(fullPath, command);
-		if (!fullPath)
-			return (NULL);
-		validPath = access(fullPath, F_OK);
-		if (validPath == 0)
-			return(fullPath);
-		free(fullPath);
-		path = strtok(NULL, ":");
-	}
-	printf("Error: command \"%s\" not found\n", command);
-	return (NULL);
+	return (params);
 }
 
 pid_t fork_and_exec(char *command, char **params)
