@@ -12,17 +12,26 @@ int main()
 
 	while (1)
 	{
-		if(isatty(0) == 1)
+		if (isatty(0) == 1)
 			printf("#cisfun$ ");
 
 		do {
 		inputLen = getline(&buf, &bufSize, stdin);
 		} while (buf[0] == '\n' && inputLen == 2);
-		if (inputLen == -1)
-			exit(EXIT_SUCCESS);
+
+		if (strcmp(buf, "\n") == 0)
+		{
+			free(buf);
+			continue;
+		}
 
 		buf = strtok(buf, newline);
-
+		if (strcmp(buf, "exit") == 0 || inputLen == -1)
+		{
+			free(buf);
+			exit(EXIT_SUCCESS);
+		}
+	
 		for (cmdLen = 0; buf[cmdLen] != ' ' && buf[cmdLen]; cmdLen++);
 
 		for (i = 0; buf[i]; i++)
@@ -35,18 +44,20 @@ int main()
 		if (!params)
 			return (0);
 		pathDirs = getenv("PATH");
+		if (!pathDirs)
+		{
+			free(buf);
+			free(pathDirs);
+			for(i = 0; params[i]; i++)
+				free(params[i]);
+			free(params);
+		}
 		validPath = check_access(pathDirs, params[0]);
 		if (validPath)
 			fork_and_exec(validPath, params);
 		else
 			exit(EXIT_SUCCESS);
 	}
-	free(buf);
-	for (i = 0; params[i]; i++)
-		free(params[i]);
-	free(params);
-	free(pathDirs);
-	free(validPath);
 	return (0);
 }
 
@@ -68,13 +79,16 @@ char *check_access(char *pathDirs, char *command)
 		strcat(fullPath, command);
 		validPath = access(fullPath, F_OK);
 		if (validPath == 0)
+		{
+			free(path);
 			return(fullPath);
+		}
 		free(fullPath);
 		path = strtok(NULL, ":");
 	}
 	printf("Error: command \"%s\" not found\n", command);
-	return (0);
 	free(path);
+	return (0);
 }
 
 pid_t fork_and_exec(char *command, char **params)
