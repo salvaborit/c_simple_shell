@@ -12,7 +12,8 @@
 #include <fcntl.h>
 
 char **tokenizer(char *buf, char **params, int paramCount);
-int check_access(char *path, char *token);
-void fork_and_exec(char *cmd, char **params);
+char *check_access(char *path, char *token);
+pid_t fork_and_exec(char *cmd, char **params);
+char *_getenv(char *name);
 
 #endif /* MAIN_H */
