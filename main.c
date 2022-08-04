@@ -41,23 +41,13 @@ int main()
 		else
 			exit(EXIT_SUCCESS);
 	}
+	free(buf);
+	for (i = 0; params[i]; i++)
+		free(params[i]);
+	free(params);
+	free(pathDirs);
+	free(validPath);
 	return (0);
-}
-
-pid_t fork_and_exec(char *command, char **params)
-{
-	extern char **environ;
-	pid_t id;
-	int status;
-
-	id = fork();
-	if (id == 0)
-	{
-		execve(command, params, environ);
-	}
-	else
-		wait(&status);
-	return (id);
 }
 
 /*
@@ -84,6 +74,21 @@ char *check_access(char *pathDirs, char *command)
 	}
 	printf("Error: command \"%s\" not found\n", command);
 	return (0);
+	free(path);
+}
+
+pid_t fork_and_exec(char *command, char **params)
+{
+	extern char **environ;
+	pid_t id;
+	int status;
+
+	id = fork();
+	if (id == 0)
+		execve(command, params, environ);
+	else
+		wait(&status);
+	return (id);
 }
 
 char *_getenv(char *name)
