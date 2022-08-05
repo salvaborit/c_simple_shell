@@ -2,7 +2,7 @@
 
 ![contributors](https://img.shields.io/github/contributors/salvaborit/holbertonschool-simple_shell)
 ### *About:* ###
-This program is based in the 5.0.17 shell version, with a really simple usage, how are you going to see below, that program execute commands read from a command line string, the standard input.
+This program (based on the Shell version 5.0.17) is a simple UNIX command interpreter (shell) usable as an interactive shell and as a shell script command processor. Below are instructions on how to use it.
 
 ### Requiments: ###
 * Linux
@@ -26,7 +26,7 @@ _compilation:_
 
 [commands]: A shell command is one that is processed internally by the shell. There is no corresponding executable program.
 
-[parameters]: Can add some parameters to your the command, if any.
+[parameters]: Can add some parameters to your command, if any.
 ` $ [command] [-parameter 1] [parameter 2] ...`
 
 **Simple usage with ls:**
@@ -44,7 +44,7 @@ cisfun$
 ```
 *_input:_*
 ` $ ls -l -a -h `
-you can also do:
+*you can also do:*
 ` $ ls -lah `
 
 *_output:_*
