@@ -1,5 +1,9 @@
 #include "main.h"
 
+/*
+* main - simple shell program
+* Return: 0 on success
+*/
 int main(void)
 {
 	extern char **environ;
@@ -69,7 +73,6 @@ int main(void)
 		paths = path_dirs_to_ap();/* saves PATH directories to *paths[] */
 		if (!paths)
 		{
-			printf("Error: failed to allocate memory\n");
 			free_ap(params);
 			continue;
 		}
@@ -90,6 +93,10 @@ int main(void)
 	return (0);
 }
 
+/*
+* free_ap - frees an array of pointers
+* @ap: array of pointer
+*/
 void free_ap(char **ap)
 {
 	int i;
@@ -100,6 +107,12 @@ void free_ap(char **ap)
 	ap = NULL;
 }
 
+/*
+* check_access - checks if command exists in PATH env var directories
+* @paths: array of pointers that contains PATH directories
+* @command: first argument passed to command line (command)
+* Return: full path of command executable if success, NULL on failure
+*/
 char *check_access(char *paths[], char *command)
 {
 	char *fullPath = NULL;
@@ -121,10 +134,14 @@ char *check_access(char *paths[], char *command)
 			return (fullPath);
 		free(fullPath);
 	}
-	printf("Error: command \"%s\" not found\n", command);
+	printf("./hsh: 1: %s: not found\n", command);
 	return (NULL);
 }
 
+/*
+* path_dirs_to_ap - creates an array of pointers to store all PATH dirs
+* Return: array of pointers containing all PATH dirs, NULL on failure
+*/
 char **path_dirs_to_ap(void)
 {
 	char *pathDirs, *token, **paths, *aux;
@@ -149,6 +166,11 @@ char **path_dirs_to_ap(void)
 	return (paths);
 }
 
+/*
+* tokenizer - creates an array of pointers to store all command line arguments
+* @buf: string that contains all command line arguments
+* Return: array of pointers containing all command line arguments, NULL on failure
+*/
 char **tokenizer(char *buf)
 {
 	char *token = NULL, **params = NULL;
@@ -168,6 +190,11 @@ char **tokenizer(char *buf)
 	return (params);
 }
 
+/*
+* fork_and_exec - self explanatory
+* @command: first command line argument, command
+* @params: array of pointers to all command line arguments
+*/
 void fork_and_exec(char *command, char **params)
 {
 	extern char **environ;
@@ -182,6 +209,11 @@ void fork_and_exec(char *command, char **params)
 	return;
 }
 
+/*
+* _getenv - gets value of environment variable
+* @name: name of environment variable to retrieve value
+* Return: value of environment variable
+*/
 char *_getenv(char *name)
 {
 	extern char **environ;
