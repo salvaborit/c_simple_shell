@@ -79,13 +79,13 @@ drwxr-xr-x 8 root root  220 Aug  3 11:25 .git
   
   ` #cisfun$ ls [parameter]`
   
-  [pwd](https://man7.org/linux/man-pages/man1/pwd.1.html): print the current working directory.
+[pwd](https://man7.org/linux/man-pages/man1/pwd.1.html): print the current working directory.
   
  ` #cisfun$ pwd `
   
-[cd](https://man7.org/linux/man-pages/man1/cd.1p.html): change the current directory.
+[echo](https://man7.org/linux/man-pages/man1/echo.1.html): display a line of text.
 
-` #cisfun $cd [directory] `
+` #cisfun echo hello world `
 
 **_You can read more about these commands if you want:_**
  #### [Learn about commands.](https://www.javatpoint.com/linux-commands) ####
