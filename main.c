@@ -1,21 +1,19 @@
 #include "main.h"
 
-int main()
+int main(void)
 {
-	char *buf = NULL, *validPath = NULL;
-	char **params = NULL, *newline = "\n", **paths = NULL;
+	extern char **environ;
+	char *buf = NULL, *validPath = NULL, *buf_aux, *newline = "\n";
+	char **params = NULL, **paths = NULL;
 	size_t bufSize = 0;
-	int inputLen = 0;
-	char *buf_aux;
+	int inputLen = 0, i;
 
 	while (1)
 	{
-		/* print prompt */
-		if (isatty(0))
+		if (isatty(0))/* print prompt */
 			printf("#cisfun$ ");
-
-		/* read input from stdin to buf */
-		inputLen = getline(&buf, &bufSize, stdin);
+		
+		inputLen = getline(&buf, &bufSize, stdin);/* stdin to buf */
 		if (inputLen == -1)
 		{
 			if (buf)
@@ -25,71 +23,66 @@ int main()
 			}
 			exit(0);
 		}
-
-		/* if input is ENTER end loop */
+		
 		if (strcmp(buf, "\n") == 0)
-		{
+		{/* if input is ENTER end loop */
 			free(buf);
 			buf = NULL;
 			continue;
 		}
-
-		/* removes newline from getline buf */
-		buf_aux = strdup(buf);
+		
+		buf_aux = strdup(buf); /* removes newline from getline buf */
 		strtok(buf_aux, newline);
 		free(buf);
 		buf = NULL;
 
-		/* FREE BUF AFTER NOT USED ANYMORE */
-
-		/* if input is "exit" exit program */
 		if (strcmp(buf_aux, "exit") == 0 || inputLen == -1)
-		{
+		{/* if input is "exit" exit program */
+
 			free(buf_aux);
 			exit(0);
 		}
 
-		/* saves all command line arguments to *params[] */
-		params = tokenizer(buf_aux);
-
-		/* caso borde bester*/
-		if (!params || !params[0])
+		if (strcmp(buf_aux, "env") == 0)
 		{
+			for (i = 0; environ[i]; i++)
+				puts(environ[i]);
+			free(buf_aux);
+			continue;
+		}
+		
+		params = tokenizer(buf_aux);/* CL args to *params[] */
+		
+		if (!params || !params[0])
+		{/* caso borde */
 			free_ap(params);
 			continue;
 		}
-
-		/* checks if bare command exists */
+		
 		if (access(params[0], F_OK) == 0)
-		{
+		{/* checks if bare command exists */
 			fork_and_exec(params[0], params);
 			free_ap(params);
 			continue;
 		}
-
 		
-
-		/* saves PATH directories to *paths[] */
-		paths = path_dirs_to_ap();
+		paths = path_dirs_to_ap();/* saves PATH directories to *paths[] */
 		if (!paths)
 		{
 			printf("Error: failed to allocate memory\n");
 			free_ap(params);
 			continue;
 		}
-
-		/* checks if /pathdirs/command exists */
+		
 		validPath = check_access(paths, params[0]);
 		if (!validPath)
-		{
+		{/* checks if /pathdirs/command exists */
 			free_ap(params);
 			free_ap(paths);
 			continue;
 		}
-
-		/* forks and executes */
-		fork_and_exec(validPath, params);
-
+		
+		fork_and_exec(validPath, params);/* forks and executes */
 		free_ap(paths);
 		free_ap(params);
 		free(validPath);
