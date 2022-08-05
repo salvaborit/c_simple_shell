@@ -117,7 +117,7 @@ _________________________
 
 `main.c` 
 **contains:**
-* The main function.
+* ` int main(void) `
 * char **tokenizer(char *buf, char **params);
 * char *check_access(char *paths[], char *command);
 * void fork_and_exec(char *command, char **params);
