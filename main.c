@@ -5,7 +5,7 @@ int main()
 	char *buf = NULL, *validPath = NULL;
 	char **params = NULL, *newline = "\n", **paths = NULL;
 	size_t bufSize = 0;
-	int i, inputLen, paramCount = 0;
+	int i, inputLen;
 	char *buf_aux;
 
 	while (1)
@@ -15,10 +15,10 @@ int main()
 			printf("#cisfun$ ");
 
 		/* read input from stdin to buf */
-		do {
-		inputLen = getline(&buf, &bufSize, stdin);
+		do
+		{
+			inputLen = getline(&buf, &bufSize, stdin);
 		} while (buf[0] == '\n' && inputLen == 2);
-
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
 		{
@@ -27,21 +27,20 @@ int main()
 		}
 
 		/* removes newline from getline buf */
-		buf_aux = strtok(strdup(buf), newline);
+		buf_aux = strdup(buf);
+		strtok(buf_aux, newline);
 
 		/* if input is "exit" exit program */
 		if (strcmp(buf_aux, "exit") == 0 || inputLen == -1)
 		{
+			free(buf_aux);
 			free(buf);
 			exit(0);
 		}
-		/* parameter count */
-		for (i = 0; buf_aux[i]; i++)
-			if (buf_aux[i] != 32/*space*/ && (buf_aux[i + 1] == 10/*newline*/ || buf_aux[i + 1] == 32 || buf_aux[i + 1] ==  0))
-				paramCount++;
 
 		/* saves all command line arguments to *params[] */
-		params = tokenizer(buf_aux, params, paramCount);
+		params = tokenizer(buf_aux, params);
+
 		if (!params)
 		{
 			printf("Error: failed to allocate memory\n");
@@ -59,6 +58,7 @@ int main()
 
 		/* saves PATH directories to *paths[] */
 		paths = path_dirs_to_ap();
+
 		if (!paths)
 		{
 			printf("Error: failed to allocate memory\n");
@@ -66,7 +66,7 @@ int main()
 			free_ap(params);
 			continue;
 		}
-		
+
 		/* checks if /pathdirs/command exists */
 		validPath = check_access(paths, params[0]);
 		if (!validPath)
@@ -81,8 +81,10 @@ int main()
 		fork_and_exec(validPath, params);
 
 		free(buf_aux);
-		free_ap(params);
-		//free_ap(paths);
+		// free(buf);
+		free_ap(paths);
+		free(params[0]);
+		free(params);
 		free(validPath);
 	}
 	return (0);
@@ -117,7 +119,7 @@ char *check_access(char *paths[], char *command)
 		strcat(fullPath, "/");
 		strcat(fullPath, command);
 		if (access(fullPath, F_OK) == 0)
-			return(fullPath);
+			return (fullPath);
 	}
 	printf("Error: command \"%s\" not found\n", command);
 	return (NULL);
@@ -125,29 +127,29 @@ char *check_access(char *paths[], char *command)
 
 char **path_dirs_to_ap(void)
 {
-	char *pathDirs, *token, **paths;
-	int i, pathCount = 1;
-
+	char *pathDirs, *token, **paths, *aux;
+	int i;
 	pathDirs = strdup(getenv("PATH"));
-	for (i = 0; pathDirs[i]; i++)
-		if (pathDirs[i] == ':')
-			pathCount++;
 
 	paths = malloc(1024);
+
 	if (!paths)
 		return (NULL);
-
-	token = strtok(pathDirs, ":");
-	for (i = 0; i < pathCount; i++)
+	token = strdup(pathDirs);
+	strtok(token, ":");
+	aux = token;
+	for (i = 0; aux; i++)
 	{
-		paths[i] = token;
-		token = strtok(NULL, ":");
+		paths[i] = strdup(aux);
+		aux = strtok(NULL, ":");
 	}
+	free(pathDirs);
+	free(token);
 	paths[i] = NULL;
 	return (paths);
 }
 
-char **tokenizer(char *buf, char **params, int paramCount)
+char **tokenizer(char *buf, char **params)
 {
 	char *token;
 	int i;
@@ -156,7 +158,7 @@ char **tokenizer(char *buf, char **params, int paramCount)
 	if (!params)
 		return (NULL);
 	token = strtok(strdup(buf), " ");
-	for (i = 0; i < paramCount; i++)
+	for (i = 0; token; i++)
 	{
 		params[i] = token;
 		token = strtok(NULL, " ");

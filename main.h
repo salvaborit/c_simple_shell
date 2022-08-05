@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-char **tokenizer(char *buf, char **params, int paramCount);
+char **tokenizer(char *buf, char **params);
 char *check_access(char *paths[], char *command);
 void fork_and_exec(char *command, char **params);
 char *_getenv(char *name);
