@@ -18,7 +18,8 @@ int main()
 		do
 		{
 			inputLen = getline(&buf, &bufSize, stdin);
-		} while (buf[0] == '\n' && inputLen == 2);
+		} while (buf[0] == '\n' && inputLen > -1);
+
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
 		{
@@ -40,7 +41,6 @@ int main()
 
 		/* saves all command line arguments to *params[] */
 		params = tokenizer(buf_aux, params);
-
 		if (!params)
 		{
 			printf("Error: failed to allocate memory\n");
@@ -58,7 +58,6 @@ int main()
 
 		/* saves PATH directories to *paths[] */
 		paths = path_dirs_to_ap();
-
 		if (!paths)
 		{
 			printf("Error: failed to allocate memory\n");
