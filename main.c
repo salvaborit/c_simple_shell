@@ -55,6 +55,13 @@ int main()
 		validPath = malloc(1024);
 		if (!validPath)
 			exit(0);
+		
+		if (access(params[0], F_OK) == 0)
+		{
+			fork_and_exec(params[0], params);
+			exit(0);
+		}
+
 		validPath = check_access(paths, params[0]);
 
 		if (validPath)
@@ -91,10 +98,9 @@ char *check_access(char *paths[], char *command)
 			return(fullPath);
 		free(fullPath);
 	}
-	printf("Error: hellocommand \"%s\" not found\n", command);
+	printf("Error: command \"%s\" not found\n", command);
 	return (NULL);
 }
-
 
 char **path_dirs_to_array(char *pathDirs)
 {
@@ -138,7 +144,7 @@ char **tokenizer(char *buf, char **params, int paramCount)
 	return (params);
 }
 
-pid_t fork_and_exec(char *command, char **params)
+void fork_and_exec(char *command, char **params)
 {
 	extern char **environ;
 	pid_t id;
@@ -149,7 +155,7 @@ pid_t fork_and_exec(char *command, char **params)
 		execve(command, params, environ);
 	else
 		wait(&status);
-	return (id);
+	return;
 }
 
 char *_getenv(char *name)
