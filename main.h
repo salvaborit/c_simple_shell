@@ -15,6 +15,7 @@ char **tokenizer(char *buf, char **params, int paramCount);
 char *check_access(char *paths[], char *command);
 void fork_and_exec(char *command, char **params);
 char *_getenv(char *name);
-char **path_dirs_to_array(char *pathDirs);
+char **path_dirs_to_ap(void);
+void free_ap(char **ap);
 
 #endif /* MAIN_H */
