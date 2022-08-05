@@ -23,7 +23,7 @@ _compilation:_
 * *env*: prints system environment variables
 * *exit*: exits program
 
-### Syntax of commands ##
+### syntax of commands shell ##
 ` $ [command] -[parameters]... `
 
 **_Some examples with classical [commands and arguments](https://afni.nimh.nih.gov/pub/dist/edu/data/CD.expanded/AFNI_data6/unix_tutorial/misc/uni_commands.html):_**
