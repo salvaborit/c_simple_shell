@@ -5,8 +5,12 @@ int main()
 	char *buf = NULL, *validPath = NULL;
 	char **params = NULL, *newline = "\n", **paths = NULL;
 	size_t bufSize = 0;
-	int inputLen;
 	char *buf_aux;
+
+	/* saves PATH directories to *paths[] */
+	paths = path_dirs_to_ap();
+	if (!paths)
+		exit(0);
 
 	while (1)
 	{
@@ -15,10 +19,12 @@ int main()
 			printf("#cisfun$ ");
 
 		/* read input from stdin to buf */
-		do {
-			inputLen = getline(&buf, &bufSize, stdin);
-		} while (buf[0] == '\n' && inputLen > 2);
-
+		if (getline(&buf, &bufSize, stdin) == -1)
+		{
+			free_ap(paths);
+			exit(0);
+		}
+		
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
 		{
@@ -31,10 +37,11 @@ int main()
 		strtok(buf_aux, newline);
 
 		/* if input is "exit" exit program */
-		if (strcmp(buf_aux, "exit") == 0 || inputLen == -1)
+		if (strcmp(buf_aux, "exit") == 0)
 		{
 			free(buf_aux);
 			free(buf);
+			free_ap(paths);
 			exit(0);
 		}
 
@@ -52,17 +59,8 @@ int main()
 			fork_and_exec(params[0], params);
 			free(buf);
 			free_ap(params);
+			free_ap(paths);
 			exit(0);
-		}
-
-		/* saves PATH directories to *paths[] */
-		paths = path_dirs_to_ap();
-		if (!paths)
-		{
-			printf("Error: failed to allocate memory\n");
-			free(buf);
-			free_ap(params);
-			continue;
 		}
 
 		/* checks if /pathdirs/command exists */
@@ -71,7 +69,6 @@ int main()
 		{
 			free(buf);
 			free_ap(params);
-			free_ap(paths);
 			continue;
 		}
 
