@@ -126,8 +126,8 @@ _________________________
 
 ` main.h `
 **contains:**
-* Function prototypes.
-* Libraries needed for execution.
+* Function prototypes
+* Libraries needed for execution
 
 **_Authors:_**
 * [Salvador Borit](https://github.com/salvaborit) ![follow](https://img.shields.io/github/followers/salvaborit?style=social)
