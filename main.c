@@ -22,6 +22,7 @@ int main()
 				free(buf);
 			exit(0);
 		}
+
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
 		{
@@ -39,7 +40,6 @@ int main()
 		if (strcmp(buf_aux, "exit") == 0 || inputLen == -1)
 		{
 			free(buf_aux);
-			free(buf);
 			exit(0);
 		}
 
@@ -47,6 +47,7 @@ int main()
 		params = tokenizer(buf_aux, params);
 		if (!params)
 		{
+			free(buf);
 			free(buf_aux);
 			continue;
 		}
@@ -55,7 +56,8 @@ int main()
 		if (access(params[0], F_OK) == 0)
 		{
 			fork_and_exec(params[0], params);
-			free(buf);
+			if (buf)
+				free(buf);
 			free_ap(params);
 			continue;
 		}
