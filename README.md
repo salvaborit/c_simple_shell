@@ -11,13 +11,13 @@ This program is based in the 5.0.17 shell version, with a really simple usage, h
 
 ### Installation and compilation: ###
 _You can clone:_
-` git clone https://github.com/C-Mauro/holbertonschool-printf.git `
+` git clone https://github.com/salvaborit/holbertonschool-simple_shell.git `
 
 _compilation:_
-` gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh `
+` gcc -g -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh `
 
 ### syntax of commands shell ##
-` cisfun$ [command] -[parameters]... `
+` #cisfun$ [command] -[parameters]... `
 
 **_Some examples with classical [commands and arguments](https://afni.nimh.nih.gov/pub/dist/edu/data/CD.expanded/AFNI_data6/unix_tutorial/misc/uni_commands.html):_**
 
@@ -29,7 +29,7 @@ _compilation:_
 **Simple usage with ls:**
 
 *_input:_*
-`cisfun$ ls`
+` #cisfun$ ls`
 
 *_output:_*
 
@@ -40,14 +40,14 @@ environ  hsh        main.h  shell      sig.c
 cisfun$
 ```
 *_input:_*
-` cisfun$ ls -l -a -h `
+` #cisfun$ ls -l -a -h `
 you can also do:
-` cisfun$ ls -lah `
+` #cisfun$ ls -lah `
 
 *_output:_*
 
 ```
-cisfun$ ls -lah
+#cisfun$ ls -lah
 total 3.0M
 drwxr-xr-x 3 root root  194 Aug  5 03:41 .
 drwx------ 1 root root 4.0K Aug  5 03:34 ..
@@ -64,7 +64,7 @@ drwxr-xr-x 8 root root  220 Aug  3 11:25 .git
 -rwxr-xr-x 1 root root 2.9M Aug  5 03:29 shell
 -rwxr-xr-x 1 root root  22K Aug  4 17:20 shellclear
 -rw-r--r-- 1 root root   97 Aug  3 12:15 sig.c
-cisfun$
+#cisfun$
 
 ```
 
@@ -74,15 +74,15 @@ cisfun$
   _-l:_ use a long listing format
   _-a_ do not ignore entries starting with **.**
   
-  `cisfun$ ls [parameter]`
+  ` #cisfun$ ls [parameter]`
   
   [pwd](https://man7.org/linux/man-pages/man1/pwd.1.html): print the current working directory.
   
- ` cisfun$ pwd `
+ ` #cisfun$ pwd `
   
 [cd](https://man7.org/linux/man-pages/man1/cd.1p.html): change the current directory.
 
-`cisfun $cd [directory] `
+` #cisfun $cd [directory] `
 
 **_You can read more about these commands if you want:_**
  #### [Learn about commands.](https://www.javatpoint.com/linux-commands) ####
@@ -120,7 +120,6 @@ _________________________
 * path_dirs_to_ap
 * tokenizer
 * fork_and_exec
-* _getenv
 
 ` main.h `
 **Contain:**
