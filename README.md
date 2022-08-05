@@ -85,7 +85,7 @@ drwxr-xr-x 8 root root  220 Aug  3 11:25 .git
   
 [echo](https://man7.org/linux/man-pages/man1/echo.1.html): display a line of text.
 
-` #cisfun echo hello world `
+` #cisfun$ echo hello world `
 
 **_You can read more about these commands if you want:_**
  #### [Learn about commands.](https://www.javatpoint.com/linux-commands) ####
@@ -116,16 +116,17 @@ _________________________
 ### _You can find these files:_ ###
 
 `main.c` 
-**Contain:**
+**contains:**
 * The main function.
-* free_ap
-* check_access
-* path_dirs_to_ap
-* tokenizer
-* fork_and_exec
+* char **tokenizer(char *buf, char **params);
+* char *check_access(char *paths[], char *command);
+* void fork_and_exec(char *command, char **params);
+* char *_getenv(char *name);
+* char **path_dirs_to_ap(void);
+* void free_ap(char **ap);
 
 ` main.h `
-**Contain:**
+**contains:**
 Header file, here you can find all the prototypes of the functions.
 
 **_Authors:_**
