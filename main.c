@@ -17,8 +17,11 @@ int main()
 		/* read input from stdin to buf */
 		inputLen = getline(&buf, &bufSize, stdin);
 		if (inputLen == -1)
+		{
+			if (buf) 
+				free(buf);
 			exit(0);
-
+		}
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
 		{
@@ -29,6 +32,8 @@ int main()
 		/* removes newline from getline buf */
 		buf_aux = strdup(buf);
 		strtok(buf_aux, newline);
+
+		/* FREE BUF AFTER NOT USED ANYMORE */
 
 		/* if input is "exit" exit program */
 		if (strcmp(buf_aux, "exit") == 0 || inputLen == -1)
@@ -61,7 +66,7 @@ int main()
 			free_ap(params);
 			continue;
 		}
-		
+
 		/* saves PATH directories to *paths[] */
 		paths = path_dirs_to_ap();
 		if (!paths)
