@@ -20,14 +20,14 @@ _compilation:_
 ` valgrind -s --tool=memcheck --track-origins=yes --leak-check=full --show-leak-kinds=all ./hsh `
 
 ### syntax of commands shell ##
-` #cisfun$ [command] -[parameters]... `
+` $ [command] -[parameters]... `
 
 **_Some examples with classical [commands and arguments](https://afni.nimh.nih.gov/pub/dist/edu/data/CD.expanded/AFNI_data6/unix_tutorial/misc/uni_commands.html):_**
 
 [commands]: A shell command is one that is processed internally by the shell. There is no corresponding executable program.
 
 [parameters]: Can add some parameters to your the command, if any.
-` #cisfun$ [command] [-parameter 1] [parameter 2] ...`
+` $ [command] [-parameter 1] [parameter 2] ...`
 
 **Simple usage with ls:**
 
