@@ -117,17 +117,17 @@ _________________________
 
 `main.c` 
 **contains:**
-* ` int main(void) `
-* char **tokenizer(char *buf, char **params);
-* char *check_access(char *paths[], char *command);
-* void fork_and_exec(char *command, char **params);
-* char *_getenv(char *name);
-* char **path_dirs_to_ap(void);
-* void free_ap(char **ap);
+* The main function.
+* free_ap
+* check_access
+* path_dirs_to_ap
+* tokenizer
+* fork_and_exec
 
 ` main.h `
 **contains:**
-Header file, here you can find all the prototypes of the functions.
+* Function prototypes.
+* Libraries needed for execution.
 
 **_Authors:_**
 * [Salvador Borit](https://github.com/salvaborit) ![follow](https://img.shields.io/github/followers/salvaborit?style=social)
