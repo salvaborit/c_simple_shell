@@ -55,6 +55,13 @@ int main()
 			continue;
 		}
 
+		/* caso borde bester*/
+		if (!params || !params[0])
+		{
+			free_ap(params);
+			continue;
+		}
+		
 		/* saves PATH directories to *paths[] */
 		paths = path_dirs_to_ap();
 		if (!paths)
