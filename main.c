@@ -5,7 +5,7 @@ int main()
 	char *buf = NULL, *validPath = NULL;
 	char **params = NULL, *newline = "\n", **paths = NULL;
 	size_t bufSize = 0;
-	int i, inputLen;
+	int inputLen;
 	char *buf_aux;
 
 	while (1)
@@ -81,7 +81,6 @@ int main()
 		fork_and_exec(validPath, params);
 
 		free(buf_aux);
-		// free(buf);
 		free_ap(paths);
 		free(params[0]);
 		free(params);
