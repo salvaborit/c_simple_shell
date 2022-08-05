@@ -16,6 +16,9 @@ _You can clone:_
 _compilation:_
 ` gcc -g -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh `
 
+### Memory check with Valgrind: ###
+` valgrind -s --tool=memcheck --track-origins=yes --leak-check=full --show-leak-kinds=all ./hsh `
+
 ### syntax of commands shell ##
 ` #cisfun$ [command] -[parameters]... `
 
@@ -24,7 +27,7 @@ _compilation:_
 [commands]: A shell command is one that is processed internally by the shell. There is no corresponding executable program.
 
 [parameters]: Can add some parameters to your the command, if any.
-` cisfun$ [command] [-parameter 1] [parameter 2] ...`
+` #cisfun$ [command] [-parameter 1] [parameter 2] ...`
 
 **Simple usage with ls:**
 
