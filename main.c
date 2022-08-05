@@ -15,10 +15,9 @@ int main()
 			printf("#cisfun$ ");
 
 		/* read input from stdin to buf */
-		do
-		{
+		do {
 			inputLen = getline(&buf, &bufSize, stdin);
-		} while (buf[0] == '\n' && inputLen > -1);
+		} while (buf[0] == '\n' && inputLen > 2);
 
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
