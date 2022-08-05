@@ -32,7 +32,7 @@ _compilation:_
 **Simple usage with ls:**
 
 *_input:_*
-` #cisfun$ ls`
+` $ ls`
 
 *_output:_*
 
@@ -43,9 +43,9 @@ environ  hsh        main.h  shell      sig.c
 cisfun$
 ```
 *_input:_*
-` #cisfun$ ls -l -a -h `
+` $ ls -l -a -h `
 you can also do:
-` #cisfun$ ls -lah `
+` $ ls -lah `
 
 *_output:_*
 
@@ -77,15 +77,15 @@ drwxr-xr-x 8 root root  220 Aug  3 11:25 .git
   _-l:_ use a long listing format
   _-a_ do not ignore entries starting with **.**
   
-  ` #cisfun$ ls [parameter]`
+  ` $ ls [parameter]`
   
 [pwd](https://man7.org/linux/man-pages/man1/pwd.1.html): print the current working directory.
   
- ` #cisfun$ pwd `
+ ` $ pwd `
   
 [echo](https://man7.org/linux/man-pages/man1/echo.1.html): display a line of text.
 
-` #cisfun$ echo hello world `
+` $ echo hello world `
 
 **_You can read more about these commands if you want:_**
  #### [Learn about commands.](https://www.javatpoint.com/linux-commands) ####
