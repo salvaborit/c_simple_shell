@@ -22,7 +22,7 @@ int main()
 		/* if input is ENTER end loop */
 		if (strcmp(buf, "\n") == 0)
 		{
-			free(buf);
+		/*	free(buf);	*/
 			continue;
 		}
 

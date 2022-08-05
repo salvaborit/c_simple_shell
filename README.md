@@ -19,6 +19,10 @@ _compilation:_
 ### Memory check with Valgrind: ###
 ` valgrind -s --tool=memcheck --track-origins=yes --leak-check=full --show-leak-kinds=all ./hsh `
 
+### Built-ins: ###
+* env: prints system environment variables
+* exit: exits program
+
 ### syntax of commands shell ##
 ` $ [command] -[parameters]... `
 
