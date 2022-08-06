@@ -93,7 +93,7 @@ int main(void)
 	return (0);
 }
 
-/*
+/**
 * _getenv - gets value of environment variable
 * @name: name of environment variable to retrieve value
 * Return: value of environment variable
