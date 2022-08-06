@@ -1,6 +1,6 @@
 #include "main.h"
 
-/*
+/**
 * main - simple shell program
 * Return: 0 on success
 */

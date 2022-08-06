@@ -1,6 +1,6 @@
 #include "main.h"
 
-/*
+/**
 * free_ap - frees an array of pointers
 * @ap: array of pointer
 */
@@ -14,7 +14,7 @@ void free_ap(char **ap)
 	ap = NULL;
 }
 
-/*
+/**
 * check_access - checks if command exists in PATH env var directories
 * @paths: array of pointers that contains PATH directories
 * @command: first argument passed to command line (command)
@@ -45,7 +45,7 @@ char *check_access(char *paths[], char *command)
 	return (NULL);
 }
 
-/*
+/**
 * path_dirs_to_ap - creates an array of pointers to store all PATH dirs
 * Return: array of pointers containing all PATH dirs, NULL on failure
 */
@@ -73,7 +73,7 @@ char **path_dirs_to_ap(void)
 	return (paths);
 }
 
-/*
+/**
 * tokenizer - creates an array of pointers to store all command line arguments
 * @buf: string that contains all command line arguments
 * Return: array of pointers containing all command line arguments, NULL on failure
@@ -97,7 +97,7 @@ char **tokenizer(char *buf)
 	return (params);
 }
 
-/*
+/**
 * fork_and_exec - self explanatory
 * @command: first command line argument, command
 * @params: array of pointers to all command line arguments
