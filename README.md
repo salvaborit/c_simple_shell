@@ -65,7 +65,6 @@ drwxr-xr-x 8 root root  220 Aug  3 11:25 .git
 -rwxr-xr-x 1 root root  20K Aug  3 11:20 .hsh
 -rwxr-xr-x 1 root root  21K Aug  3 11:20 hsh
 -rw-r--r-- 1 root root 3.4K Aug  5 03:28 main.c
--rw-r--r-- 1 root root  16K Aug  5 03:16 .main.c.swp
 -rw-r--r-- 1 root root  464 Aug  5 03:29 main.h
 -rw-r--r-- 1 root root    7 Aug  3 11:20 README.md
 -rwxr-xr-x 1 root root 2.9M Aug  5 03:29 shell
